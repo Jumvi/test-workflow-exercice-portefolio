@@ -1,70 +1,37 @@
 const fs = require('fs');
 
 function parseErrors(filePath, outputFile) {
-  const errors = fs.readFileSync(filePath, 'utf8').split('\n');
+  const errors = fs.readFileSync(filePath, 'utf-8').split('\n');
   let feedback = '';
 
   errors.forEach(error => {
-    if (error.includes('Unexpected unit')) {
-      feedback += '❌ **Erreur CSS** : Tu as utilisé une unité inconnue.\n';
-      feedback += '💡 **Astuce** : Utilise des unités comme `px`, `rem`, ou `%`.\n\n';
-    } else if (error.includes('Duplicate class')) {
-      feedback += '❌ **Erreur CSS** : Une classe est dupliquée.\n';
-      feedback += '💡 **Astuce** : Assure-toi que chaque classe est unique.\n\n';
-    } else if (error.includes('Empty block')) {
-      feedback += '❌ **Erreur CSS** : Un bloc CSS est vide.\n';
-      feedback += '💡 **Astuce** : Supprime les blocs CSS vides.\n\n';
-    } else if (error.includes('Invalid hex color')) {
-      feedback += '❌ **Erreur CSS** : Une couleur hexadécimale est invalide.\n';
-      feedback += '💡 **Astuce** : Utilise des couleurs hexadécimales valides (ex: `#FFFFFF`).\n\n';
+    if (error.includes('Please use tab for indentation')) {
+      feedback += '❌ **Erreur d\'indentation** : Utilisez des tabulations pour l\'indentation.\n';
+      feedback += '💡 **Solution** : Configurez votre éditeur pour utiliser des tabulations au lieu d\'espaces.\n\n';
+    } else if (error.includes('must be self closed')) {
+      feedback += '❌ **Erreur de balise auto-fermante** : Les balises auto-fermantes doivent se terminer par `/>`.\n';
+      feedback += '💡 **Solution** : Corrigez les balises comme `<meta>`, `<link>`, et `<img>` pour qu\'elles soient auto-fermantes.\n\n';
+    } else if (error.includes('Tag must be paired')) {
+      feedback += '❌ **Erreur de balise non fermée** : Chaque balise ouvrante doit avoir une balise fermante correspondante.\n';
+      feedback += '💡 **Solution** : Assurez-vous que chaque balise comme `<section>` est correctement fermée par `</section>`.\n\n';
+    } else if (error.includes('alt attribute must be present')) {
+      feedback += '❌ **Erreur d\'attribut `alt` manquant** : Chaque balise `<img>` doit avoir un attribut `alt`.\n';
+      feedback += '💡 **Solution** : Ajoutez un attribut `alt` pour décrire l\'image, par exemple : `<img src="image.jpg" alt="Description de l\'image" />`.\n\n';
+    } else if (error.includes('The <script> tag cannot be used in a <head> tag')) {
+      feedback += '❌ **Erreur de balise `<script>` dans `<head>`** : Les balises `<script>` ne doivent pas être placées dans `<head>`.\n';
+      feedback += '💡 **Solution** : Déplacez les balises `<script>` juste avant la fermeture de `</body>`.\n\n';
+    } else if (error.includes('Special characters must be escaped')) {
+      feedback += '❌ **Erreur de caractères spéciaux non échappés** : Les caractères spéciaux doivent être échappés.\n';
+      feedback += '💡 **Solution** : Remplacez les caractères spéciaux comme `>` par `&gt;`.\n\n';
+    } else if (error.includes('Duplicate meta charset')) {
+      feedback += '❌ **Erreur de balise `<meta>` dupliquée** : Il y a une balise `<meta charset="utf-8">` dupliquée.\n';
+      feedback += '💡 **Solution** : Supprimez la balise `<meta>` dupliquée.\n\n';
+    } else if (error.includes('Tag must be paired, missing: [ </p></setion> ]')) {
+      feedback += '❌ **Erreur de balise mal fermée** : La balise `<p>` ou `<section>` n\'est pas correctement fermée.\n';
+      feedback += '💡 **Solution** : Assurez-vous que chaque balise est correctement fermée.\n\n';
     } else if (error.includes('Unknown property')) {
-      feedback += '❌ **Erreur CSS** : Une propriété inconnue est utilisée.\n';
-      feedback += '💡 **Astuce** : Vérifie l\'orthographe de la propriété.\n\n';
-    } else if (error.includes('Duplicate selector')) {
-      feedback += '❌ **Erreur CSS** : Un sélecteur est dupliqué.\n';
-      feedback += '💡 **Astuce** : Assure-toi que chaque sélecteur est unique.\n\n';
-    } else if (error.includes('!important')) {
-      feedback += '❌ **Erreur CSS** : La déclaration `!important` est utilisée.\n';
-      feedback += '💡 **Astuce** : Évite d\'utiliser `!important`.\n\n';
-    } else if (error.includes('Missing alt attribute')) {
-      feedback += '❌ **Erreur HTML** : Une image n\'a pas d\'attribut `alt`.\n';
-      feedback += '💡 **Astuce** : Ajoute un attribut `alt` pour chaque image pour l\'accessibilité.\n\n';
-    } else if (error.includes('Duplicate ID')) {
-      feedback += '❌ **Erreur HTML** : Un `id` est dupliqué.\n';
-      feedback += '💡 **Astuce** : Assure-toi que chaque `id` est unique dans la page.\n\n';
-    } else if (error.includes('Empty title tag')) {
-      feedback += '❌ **Erreur HTML** : La balise `<title>` est manquante.\n';
-      feedback += '💡 **Astuce** : Ajoute une balise `<title>` pour chaque page.\n\n';
-    } else if (error.includes('Section lacks heading')) {
-      feedback += '❌ **Erreur HTML** : Une balise `<section>` ne contient pas de titre.\n';
-      feedback += '💡 **Astuce** : Ajoute un titre (`<h1>` à `<h6>`) dans chaque `<section>`.\n\n';
-    } else if (error.includes('Invalid doctype')) {
-      feedback += '❌ **Erreur HTML** : Le `<!DOCTYPE>` est invalide.\n';
-      feedback += '💡 **Astuce** : Utilise `<!DOCTYPE html>` pour HTML5.\n\n';
-    } else if (error.includes('Missing label for input')) {
-      feedback += '❌ **Erreur HTML** : Un champ `<input>` n\'a pas de balise `<label>` associée.\n';
-      feedback += '💡 **Astuce** : Ajoute une balise `<label>` pour chaque `<input>`.\n\n';
-    } else if (error.includes('Label missing for attribute')) {
-      feedback += '❌ **Erreur HTML** : Une balise `<label>` n\'a pas d\'attribut `for`.\n';
-      feedback += '💡 **Astuce** : Ajoute un attribut `for` pour associer un `<input>`.\n\n';
-    } else if (error.includes('Invalid media query')) {
-      feedback += '❌ **Erreur CSS** : Une media query est invalide.\n';
-      feedback += '💡 **Astuce** : Vérifie la syntaxe de la media query.\n\n';
-    } else if (error.includes('Unknown media feature')) {
-      feedback += '❌ **Erreur CSS** : Un nom de fonctionnalité media est inconnu.\n';
-      feedback += '💡 **Astuce** : Utilise des noms de fonctionnalités media valides.\n\n';
-    } else if (error.includes('Unknown pseudo-class')) {
-      feedback += '❌ **Erreur CSS** : Une pseudo-classe inconnue est utilisée.\n';
-      feedback += '💡 **Astuce** : Utilise uniquement des pseudo-classes valides.\n\n';
-    } else if (error.includes('Unknown pseudo-element')) {
-      feedback += '❌ **Erreur CSS** : Un pseudo-élément inconnu est utilisé.\n';
-      feedback += '💡 **Astuce** : Utilise uniquement des pseudo-éléments valides.\n\n';
-    } else if (error.includes('Unknown type selector')) {
-      feedback += '❌ **Erreur CSS** : Un type de sélecteur inconnu est utilisé.\n';
-      feedback += '💡 **Astuce** : Utilise uniquement des types de sélecteurs valides.\n\n';
-    } else if (error.includes('Unit not allowed')) {
-      feedback += '❌ **Erreur CSS** : Une unité non autorisée est utilisée.\n';
-      feedback += '💡 **Astuce** : Utilise uniquement les unités autorisées (ex: `em`, `rem`, `px`, `%`, `vh`, `vw`).\n\n';
+      feedback += '❌ **Erreur de propriété CSS inconnue** : Une propriété CSS inconnue est utilisée.\n';
+      feedback += '💡 **Solution** : Vérifiez l\'orthographe de la propriété.\n\n';
     }
   });
 
@@ -72,5 +39,5 @@ function parseErrors(filePath, outputFile) {
 }
 
 // Exemple d'utilisation
-parseErrors('css-report.txt', 'css-feedback.md');
 parseErrors('html-report.txt', 'html-feedback.md');
+parseErrors('css-report.txt', 'css-feedback.md');
