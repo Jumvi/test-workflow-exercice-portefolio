@@ -82,13 +82,5 @@ Scanned 1 files, found 34 errors in 1 files (13 ms)
 
 ### Messages de Commit
 
-✖   Please add rules to your `commitlint.config.js`
-    - Getting started guide: https://commitlint.js.org/guides/getting-started
-    - Example config: https://github.com/conventional-changelog/commitlint/blob/master/%40commitlint/config-conventional/src/index.ts [empty-rules]
-
-✖   found 1 problems, 0 warnings
-ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
-
-
 ### Validation W3C
 ✅ Validation W3C réussie.
