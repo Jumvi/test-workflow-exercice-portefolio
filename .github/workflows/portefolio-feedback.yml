@@ -54,7 +54,7 @@ jobs:
       # 7. Vérification W3C
       - name: Setup W3C Validator
         run: |
-          wget https://github.com/validator/validator/releases/download/latest/vnu.jar_22.6.17/vnu.jar
+          wget https://github.com/validator/validator/releases/download/latest/vnu.jar_20.6.30/vnu.jar
       - name: Run W3C Validator
         run: |
           java -jar vnu.jar --format json **/*.html > w3c-report.json || true
