@@ -1,0 +1,22 @@
+body {
+    color: #fff
+    background: #000;
+    font-size: 16px
+}
+
+h1 {
+    font-weight: bold;
+    color: #123456;
+    margin-top: 20px;
+    margin-bottom: 10px
+    padding: 10px 20px;
+}
+
+.button {
+    background-color: #ff0000;
+    color: #fff;
+    border-radius: 5px
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer
+}
