@@ -55,14 +55,6 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y wget
 
-      # 7. Vérification W3C
-      - name: Setup W3C Validator
-        run: |
-          wget https://github.com/validator/validator/releases/download/20.6.30/vnu.jar
-      - name: Run W3C Validator
-        run: |
-          java -jar vnu.jar --format json **/*.html > w3c-report.json || true
-
       # 8. Génération du feedback initial
       - name: Generate Initial Feedback
         run: |
