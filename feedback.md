@@ -1,88 +1,32 @@
-# 📋 Feedback Automatique
+# Feedback HTML
 
-## 🔍 Résultats des Analyses
+- ❌ **Indentation incorrecte** : utilisez des tabulations au lieu d'espaces.
+💡 Configurez votre éditeur pour uniformiser l'indentation.
 
-### HTML
+- ❌ **Balise auto-fermante incorrecte** : certaines balises doivent se terminer par `/>`.
+💡 Exemple : `<img src='...' />`.
 
-   Config loaded: /home/runner/work/test-workflow-exercice-portefolio/test-workflow-exercice-portefolio/.htmlhintrc
+- ❌ **Meta charset dupliqué** : une seule balise `<meta charset='UTF-8'>` est autorisée. (trouvé sur ligne 6, ligne 6)
 
-   /home/runner/work/test-workflow-exercice-portefolio/test-workflow-exercice-portefolio/index.html
-[37m      L3 |[90m    <head>[39m
-[37m          ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L4 |[90m        <title>Test HTMLHint Errors</title>[39m
-[37m          ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L5 |[90m        <meta charset="utf-8">[39m
-[37m          ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L5 |[90m        <meta charset="utf-8">[39m
-[37m                  ^ [31mThe empty tag : [ meta ] must be self closed. (tag-self-close)[39m
-[37m      L6 |[90m        <meta charset="utf-8"> <!-- Duplicate meta charset -->[39m
-[37m          ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L6 |[90m        <meta charset="utf-8"> <!-- Duplicate meta charset -->[39m
-[37m                  ^ [31mThe empty tag : [ meta ] must be self closed. (tag-self-close)[39m
-[37m      L7 |[90m        <link rel="stylesheet" href="styles.css">[39m
-[37m          ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L7 |[90m        <link rel="stylesheet" href="styles.css">[39m
-[37m                  ^ [31mThe empty tag : [ link ] must be self closed. (tag-self-close)[39m
-[37m      L8 |[90m        <script src="script.js"></script>[39m
-[37m          ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L8 |[90m        <script src="script.js"></script>[39m
-[37m                  ^ [31mThe <script> tag cannot be used in a <head> tag. (head-script-disabled)[39m
-[37m      L9 |[90m        <script src="script.js"></script> <!-- Duplicate script src -->[39m
-[37m          ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L9 |[90m        <script src="script.js"></script> <!-- Duplicate script src -->[39m
-[37m                  ^ [31mThe <script> tag cannot be used in a <head> tag. (head-script-disabled)[39m
-[37m      L10 |[90m    </head>[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L11 |[90m    <body>[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L12 |[90m        <h1>Bienvenue</h1>[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L13 |[90m        <img src="image.jpg"> <!-- Missing alt attribute -->[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L13 |[90m        <img src="image.jpg"> <!-- Missing alt attribute -->[39m
-[37m                       ^ [31mAn alt attribute must be present on <img> elements. (alt-require)[39m
-[37m      L13 |[90m        <img src="image.jpg"> <!-- Missing alt attribute -->[39m
-[37m                   ^ [31mThe empty tag : [ img ] must be self closed. (tag-self-close)[39m
-[37m      L14 |[90m        <setion>[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L15 |[90m            <p>Paragraphe sans fermeture[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L16 |[90m            </section>[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L16 |[90m            </section>[39m
-[37m                       ^ [31mTag must be paired, no start tag: [ </section> ] (tag-pair)[39m
-[37m      L17 |[90m        <a href="#">Lien sans texte</a>[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L18 |[90m        <table>[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L19 |[90m            <tr>[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L20 |[90m                <td>Cellule</td>[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L21 |[90m                <td>Celluletd>>[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L22 |[90m            </tr>[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L21 |[90m                <td>Celluletd>>[39m
-[37m                                        ^ [31mSpecial characters must be escaped : [ > ]. (spec-char-escape)[39m
-[37m      L21 |[90m                <td>Celluletd>>[39m
-[37m                                         ^ [31mSpecial characters must be escaped : [ > ]. (spec-char-escape)[39m
-[37m      L21 |[90m                <td>Celluletd>>[39m
-[37m                           ^ [31mTag must be paired, missing: [ </td> ], start tag match failed [ <td> ] on line 21. (tag-pair)[39m
-[37m      L23 |[90m        </table>[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L24 |[90m        <font color="red">Texte avec balise obsolète</font>[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L25 |[90m    </body>[39m
-[37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L15 |[90m            <p>Paragraphe sans fermeture[39m
-[37m                       ^ [31mTag must be paired, missing: [ </p></setion> ], start tag match failed [ <p> ] on line 15. (tag-pair)[39m
+- ❌ **Balise `<script>` mal placée** : ne mettez pas vos scripts dans `<head>`.
+💡 Placez-les avant `</body>`.
 
-Scanned 1 files, found 35 errors in 1 files (13 ms)
+- ❌ **Attribut `alt` manquant** : chaque image `<img>` doit avoir un texte alternatif.
+💡 Exemple : `<img src='logo.png' alt='Logo du site' />`.
 
-### CSS
+- ❌ **Balise non fermée** : chaque balise ouvrante doit avoir une balise fermante.
+💡 Exemple : `<section>` doit être fermé par `</section>`.
 
-### Messages de Commit
+- ❌ **Caractères spéciaux non échappés** : certains caractères doivent être remplacés par leur équivalent HTML.
+💡 Exemple : `>` devient `&gt;`.
 
-### Validation W3C
-✅ Validation W3C réussie.
+
+
+# Feedback CSS
+
+✅ Aucun problème détecté ! 🎉
+
+
+# Feedback Commit
+
+✅ Aucun problème détecté ! 🎉
