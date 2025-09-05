@@ -75,6 +75,14 @@ const rules = [
     match: "Unexpected token",
     message: "❌ **Erreur de syntaxe CSS** : un caractère inattendu a été trouvé."
   },
+  {
+  match: "Unexpected missing semicolon",
+  message: "❌ **Point-virgule manquant** : il manque un `;` à la fin de la déclaration."
+},
+{
+  match: "Unexpected hex color",
+  message: "❌ **Couleur hexadécimale invalide** : la valeur utilisée pour une couleur n'est pas correcte."
+},
 
   // --- Git ---
   {

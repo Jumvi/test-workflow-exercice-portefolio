@@ -44,7 +44,7 @@ jobs:
       # 5. Vérification du CSS avec Stylelint
       - name: Run Stylelint
         run: |
-          stylelint "**/*.css" > css-report.txt || true
+          stylelint "**/*.css" --formatter string > css-report.txt || true
 
       # 6. Vérification des messages de commit avec Commitlint
       - name: Run Commitlint
