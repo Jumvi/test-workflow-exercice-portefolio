@@ -18,3 +18,10 @@ a {
     color: #cc;
     text-decoraton: none; /* Erreur : propriété incorrecte, devrait être 'text-decoration' */
 }
+
+footer {
+    background-color: #222;
+    color: #fff
+    text-align: ceter;
+    padding: 20p;
+}
