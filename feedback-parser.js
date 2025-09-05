@@ -1,43 +1,135 @@
 const fs = require('fs');
 
-function parseErrors(filePath, outputFile) {
-  const errors = fs.readFileSync(filePath, 'utf-8').split('\n');
-  let feedback = '';
+// ========================
+// Dictionnaire enrichi
+// ========================
+const rules = [
+  // --- HTML ---
+  {
+    match: "Please use tab for indentation",
+    message: "❌ **Indentation incorrecte** : utilisez des tabulations au lieu d'espaces.\n💡 Configurez votre éditeur pour uniformiser l'indentation."
+  },
+  {
+    match: "must be self closed",
+    message: "❌ **Balise auto-fermante incorrecte** : certaines balises doivent se terminer par `/>`.\n💡 Exemple : `<img src='...' />`."
+  },
+  {
+    match: "Tag must be paired",
+    message: "❌ **Balise non fermée** : chaque balise ouvrante doit avoir une balise fermante.\n💡 Exemple : `<section>` doit être fermé par `</section>`."
+  },
+  {
+    match: "alt attribute must be present",
+    message: "❌ **Attribut `alt` manquant** : chaque image `<img>` doit avoir un texte alternatif.\n💡 Exemple : `<img src='logo.png' alt='Logo du site' />`."
+  },
+  {
+    match: "The <script> tag cannot be used in a <head> tag",
+    message: "❌ **Balise `<script>` mal placée** : ne mettez pas vos scripts dans `<head>`.\n💡 Placez-les avant `</body>`."
+  },
+  {
+    match: "Special characters must be escaped",
+    message: "❌ **Caractères spéciaux non échappés** : certains caractères doivent être remplacés par leur équivalent HTML.\n💡 Exemple : `>` devient `&gt;`."
+  },
+  {
+    match: "Duplicate meta charset",
+    message: "❌ **Meta charset dupliqué** : une seule balise `<meta charset='UTF-8'>` est autorisée."
+  },
+  {
+    match: "Missing doctype",
+    message: "❌ **Doctype manquant** : ajoutez `<!DOCTYPE html>` en haut du fichier."
+  },
+  {
+    match: "Missing lang attribute",
+    message: "❌ **Attribut `lang` manquant** sur `<html>`.\n💡 Exemple : `<html lang='fr'>`."
+  },
+  {
+    match: "Heading levels should only increase by one",
+    message: "❌ **Mauvaise hiérarchie de titres** : n’utilisez pas `<h3>` directement après `<h1>`.\n💡 Respectez la progression : h1 → h2 → h3."
+  },
 
-  errors.forEach(error => {
-    if (error.includes('Please use tab for indentation')) {
-      feedback += '❌ **Erreur d\'indentation** : Utilisez des tabulations pour l\'indentation.\n';
-      feedback += '💡 **Solution** : Configurez votre éditeur pour utiliser des tabulations au lieu d\'espaces.\n\n';
-    } else if (error.includes('must be self closed')) {
-      feedback += '❌ **Erreur de balise auto-fermante** : Les balises auto-fermantes doivent se terminer par `/>`.\n';
-      feedback += '💡 **Solution** : Corrigez les balises comme `<meta>`, `<link>`, et `<img>` pour qu\'elles soient auto-fermantes.\n\n';
-    } else if (error.includes('Tag must be paired')) {
-      feedback += '❌ **Erreur de balise non fermée** : Chaque balise ouvrante doit avoir une balise fermante correspondante.\n';
-      feedback += '💡 **Solution** : Assurez-vous que chaque balise comme `<section>` est correctement fermée par `</section>`.\n\n';
-    } else if (error.includes('alt attribute must be present')) {
-      feedback += '❌ **Erreur d\'attribut `alt` manquant** : Chaque balise `<img>` doit avoir un attribut `alt`.\n';
-      feedback += '💡 **Solution** : Ajoutez un attribut `alt` pour décrire l\'image, par exemple : `<img src="image.jpg" alt="Description de l\'image" />`.\n\n';
-    } else if (error.includes('The <script> tag cannot be used in a <head> tag')) {
-      feedback += '❌ **Erreur de balise `<script>` dans `<head>`** : Les balises `<script>` ne doivent pas être placées dans `<head>`.\n';
-      feedback += '💡 **Solution** : Déplacez les balises `<script>` juste avant la fermeture de `</body>`.\n\n';
-    } else if (error.includes('Special characters must be escaped')) {
-      feedback += '❌ **Erreur de caractères spéciaux non échappés** : Les caractères spéciaux doivent être échappés.\n';
-      feedback += '💡 **Solution** : Remplacez les caractères spéciaux comme `>` par `&gt;`.\n\n';
-    } else if (error.includes('Duplicate meta charset')) {
-      feedback += '❌ **Erreur de balise `<meta>` dupliquée** : Il y a une balise `<meta charset="utf-8">` dupliquée.\n';
-      feedback += '💡 **Solution** : Supprimez la balise `<meta>` dupliquée.\n\n';
-    } else if (error.includes('Tag must be paired, missing: [ </p></setion> ]')) {
-      feedback += '❌ **Erreur de balise mal fermée** : La balise `<p>` ou `<section>` n\'est pas correctement fermée.\n';
-      feedback += '💡 **Solution** : Assurez-vous que chaque balise est correctement fermée.\n\n';
-    } else if (error.includes('Unknown property')) {
-      feedback += '❌ **Erreur de propriété CSS inconnue** : Une propriété CSS inconnue est utilisée.\n';
-      feedback += '💡 **Solution** : Vérifiez l\'orthographe de la propriété.\n\n';
-    }
+  // --- CSS ---
+  {
+    match: "Unknown property",
+    message: "❌ **Propriété CSS inconnue** : vérifiez l'orthographe.\n💡 Exemple : `colr` → `color`."
+  },
+  {
+    match: "Unexpected unit",
+    message: "❌ **Unité inattendue** : vous utilisez une unité invalide.\n💡 Vérifiez si l’unité px/em/rem est correcte."
+  },
+  {
+    match: "Expected a leading zero",
+    message: "❌ **Zéro manquant** : écrivez `0.5rem` au lieu de `.5rem`."
+  },
+  {
+    match: "Duplicate property",
+    message: "❌ **Propriété dupliquée** : évitez de répéter la même règle dans un bloc.\n💡 Conservez la dernière version ou fusionnez-les."
+  },
+  {
+    match: "Unknown pseudo-class",
+    message: "❌ **Pseudo-classe inconnue** : vérifiez l’orthographe (`:hover`, `:focus`, etc.)."
+  },
+  {
+    match: "Expected closing brace",
+    message: "❌ **Accolade fermante manquante** dans votre fichier CSS."
+  },
+  {
+    match: "Unexpected token",
+    message: "❌ **Erreur de syntaxe CSS** : un caractère inattendu a été trouvé."
+  },
+
+  // --- Git ---
+  {
+    match: "subject may not be empty",
+    message: "❌ **Message de commit vide** : un commit doit avoir un message clair."
+  },
+  {
+    match: "type may not be empty",
+    message: "❌ **Type de commit manquant** : utilisez un préfixe (`feat:`, `fix:`, `docs:`, etc.)."
+  },
+  {
+    match: "type must be one of",
+    message: "❌ **Type de commit invalide** : utilisez uniquement `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`."
+  },
+  {
+    match: "subject may not be sentence-case",
+    message: "❌ **Message de commit incorrect** : le sujet doit être écrit en minuscules."
+  },
+  {
+    match: "subject may not end with",
+    message: "❌ **Message de commit incorrect** : ne terminez pas par un point ou un caractère spécial."
+  }
+];
+
+// ========================
+// Fonction de parsing
+// ========================
+function parseErrors(inputFile, outputFile) {
+  let content = fs.readFileSync(inputFile, 'utf-8');
+
+  // Nettoyer les codes de couleur ANSI
+  content = content.replace(/\u001b\[.*?m/g, '');
+
+  const lines = content.split('\n');
+  let feedback = "";
+
+  lines.forEach(line => {
+    rules.forEach(rule => {
+      if (line.includes(rule.match)) {
+        feedback += rule.message + "\n\n";
+      }
+    });
   });
 
-  fs.writeFileSync(outputFile, feedback);
+  if (!feedback) {
+    feedback = "✅ Aucun problème détecté ! 🎉\n";
+  }
+
+  fs.writeFileSync(outputFile, feedback, 'utf-8');
+  console.log(`Feedback généré dans ${outputFile}`);
 }
 
-// Exemple d'utilisation
+// ========================
+// Exemple d’utilisation
+// ========================
 parseErrors('html-report.txt', 'html-feedback.md');
 parseErrors('css-report.txt', 'css-feedback.md');
+parseErrors('commit-report.txt', 'commit-feedback.md');
