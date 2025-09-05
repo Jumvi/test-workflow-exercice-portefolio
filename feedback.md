@@ -59,13 +59,15 @@
 [37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
 [37m      L20 |[90m                <td>Cellule</td>[39m
 [37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L21 |[90m                <td>Celluletd>B[39m
+[37m      L21 |[90m                <td>Celluletd>>[39m
 [37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
 [37m      L22 |[90m            </tr>[39m
 [37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
-[37m      L21 |[90m                <td>Celluletd>B[39m
+[37m      L21 |[90m                <td>Celluletd>>[39m
 [37m                                        ^ [31mSpecial characters must be escaped : [ > ]. (spec-char-escape)[39m
-[37m      L21 |[90m                <td>Celluletd>B[39m
+[37m      L21 |[90m                <td>Celluletd>>[39m
+[37m                                         ^ [31mSpecial characters must be escaped : [ > ]. (spec-char-escape)[39m
+[37m      L21 |[90m                <td>Celluletd>>[39m
 [37m                           ^ [31mTag must be paired, missing: [ </td> ], start tag match failed [ <td> ] on line 21. (tag-pair)[39m
 [37m      L23 |[90m        </table>[39m
 [37m           ^ [31mPlease use tab for indentation. (space-tab-mixed-disabled)[39m
@@ -76,7 +78,7 @@
 [37m      L15 |[90m            <p>Paragraphe sans fermeture[39m
 [37m                       ^ [31mTag must be paired, missing: [ </p></setion> ], start tag match failed [ <p> ] on line 15. (tag-pair)[39m
 
-Scanned 1 files, found 34 errors in 1 files (13 ms)
+Scanned 1 files, found 35 errors in 1 files (13 ms)
 
 ### CSS
 
