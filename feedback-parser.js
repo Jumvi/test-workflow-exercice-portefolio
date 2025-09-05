@@ -102,30 +102,47 @@ const rules = [
 // ========================
 // Fonction de parsing
 // ========================
-function parseErrors(inputFile, outputFile) {
+function parseErrors(inputFile, outputFile, sectionTitle) {
   let content = fs.readFileSync(inputFile, 'utf-8');
-
-  // Nettoyer les codes de couleur ANSI
   content = content.replace(/\u001b\[.*?m/g, '');
 
   const lines = content.split('\n');
-  let feedback = "";
+  let feedbacks = {};
+  let hasError = false;
 
   lines.forEach(line => {
     rules.forEach(rule => {
-      if (line.includes(rule.match)) {
-        feedback += rule.message + "\n\n";
+      if (line.toLowerCase().includes(rule.match.toLowerCase())) {
+        hasError = true;
+        if (!feedbacks[rule.message]) feedbacks[rule.message] = [];
+        // Extraire la ligne si possible
+        const m = line.match(/L(\d+)\s*\|/); // ex: "L13 |"
+        if (m) feedbacks[rule.message].push(`ligne ${m[1]}`);
       }
     });
   });
 
-  if (!feedback) {
-    feedback = "✅ Aucun problème détecté ! 🎉\n";
+  let feedback = `# ${sectionTitle}\n\n`;
+  if (!hasError) {
+    feedback += "✅ Aucun problème détecté ! 🎉\n";
+  } else {
+    Object.entries(feedbacks).forEach(([msg, occurences]) => {
+      feedback += `- ${msg}`;
+      if (occurences.length > 0) {
+        feedback += ` (trouvé sur ${occurences.join(', ')})`;
+      }
+      feedback += '\n\n';
+    });
   }
 
   fs.writeFileSync(outputFile, feedback, 'utf-8');
   console.log(`Feedback généré dans ${outputFile}`);
 }
+
+// Exemple d’utilisation
+parseErrors('html-report.txt', 'html-feedback.md', 'Feedback HTML');
+parseErrors('css-report.txt', 'css-feedback.md', 'Feedback CSS');
+parseErrors('commit-report.txt', 'commit-feedback.md', 'Feedback Commit');
 
 // ========================
 // Exemple d’utilisation
