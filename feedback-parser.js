@@ -87,7 +87,7 @@ const rules = [
   message: "❌ **Attribut `src` vide ou incorrect**."
 },
 {
-  match: "Title must be present in",
+  match: "title must be present in",
   message: "❌ **Titre manquant** : ajoutez une balise `<title>` dans `<head>`."
 },
 {
@@ -110,72 +110,84 @@ const rules = [
   // --- CSS ---
 // Stylelint rules
 {
-  match: "Unexpected missing semicolon",
+  match: "unexpected missing semicolon",
   message: "❌ **Point-virgule manquant** : il manque un `;` à la fin de la déclaration."
 },
 {
-  match: "Unexpected hex color",
+  match: "unexpected hex color",
   message: "❌ **Couleur hexadécimale invalide**."
 },
 {
-  match: "Unknown property",
+  match: "unknown property",
   message: "❌ **Propriété CSS inconnue** : vérifiez l'orthographe."
 },
 {
-  match: "Unexpected unit",
+  match: "unexpected unit",
   message: "❌ **Unité inattendue dans une propriété**."
 },
 {
-  match: "Duplicate property",
+  match: "duplicate property",
   message: "❌ **Propriété dupliquée** : évitez de répéter la même règle."
 },
 {
-  match: "Unexpected unknown pseudo-class",
+  match: "unexpected unknown pseudo-class",
   message: "❌ **Pseudo-classe inconnue** : vérifiez l’orthographe."
 },
 {
-  match: "Unexpected empty source",
+  match: "unexpected empty source",
   message: "❌ **Fichier CSS vide**."
 },
 {
-  match: "Unexpected extra semicolon",
+  match: "unexpected extra semicolon",
   message: "❌ **Point-virgule en trop**."
 },
 {
-  match: "Unknown word",
+  match: "unknown word",
   message: "❌ **Mot inconnu en CSS** : erreur de syntaxe probable."
 },
 {
-  match: "Expected a leading zero",
+  match: "expected a leading zero",
   message: "❌ **Zéro manquant avant la décimale**."
 },
 {
-  match: "Unexpected duplicate selector",
+  match: "unexpected duplicate selector",
   message: "❌ **Sélecteur dupliqué**."
 },
 {
-  match: "Expected single space after",
+  match: "expected single space after",
   message: "❌ **Problème d'espacement après une propriété CSS**."
 },
 {
-  match: "Expected closing brace",
+  match: "expected closing brace",
   message: "❌ **Accolade fermante manquante**."
 },
 {
-  match: "No unknown at-rules",
+  match: "no unknown at-rules",
   message: "❌ **At-rule inconnu**."
 },
 {
-  match: "Selector should be written in lowercase",
+  match: "selector should be written in lowercase",
   message: "❌ **Sélecteur en majuscule** : utilisez des minuscules."
 },
 {
-  match: "Unexpected vendor-prefix",
+  match: "unexpected vendor-prefix",
   message: "❌ **Préfixe navigateur interdit**."
 },
 {
-  match: "Expected a selector",
+  match: "expected a selector",
   message: "❌ **Sélecteur manquant ou mal formé**."
+},
+{
+  match: "unknown property",
+  message: "❌ **Propriété CSS inconnue** : vérifiez l'orthographe."
+},
+{
+  match: "unexpected unknown property",
+  message: "❌ **Propriété CSS inconnue** : vérifiez l'orthographe."
+},
+{
+  match: "is not a known property",
+  message: "❌ **Propriété CSS inconnue** : vérifiez l'orthographe."
 },
 
   // --- Git ---
