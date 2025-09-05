@@ -144,9 +144,9 @@ parseErrors('html-report.txt', 'html-feedback.md', 'Feedback HTML');
 parseErrors('css-report.txt', 'css-feedback.md', 'Feedback CSS');
 parseErrors('commit-report.txt', 'commit-feedback.md', 'Feedback Commit');
 
-// ========================
-// Exemple d’utilisation
-// ========================
-parseErrors('html-report.txt', 'html-feedback.md');
-parseErrors('css-report.txt', 'css-feedback.md');
-parseErrors('commit-report.txt', 'commit-feedback.md');
+const final = [
+  fs.readFileSync('html-feedback.md', 'utf-8'),
+  fs.readFileSync('css-feedback.md', 'utf-8'),
+  fs.readFileSync('commit-feedback.md', 'utf-8')
+].join('\n\n');
+fs.writeFileSync('feedback.md', final, 'utf-8');
