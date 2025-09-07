@@ -44,12 +44,12 @@ jobs:
       # 5. Vérification du CSS avec Stylelint
       - name: Run Stylelint
         run: |
-          stylelint "**/*.css" --formatter string > css-report.txt || true
+          stylelint "**/*.css" --formatter verbose > css-report.txt || true
 
       # 6. Vérification des messages de commit avec Commitlint
       - name: Run Commitlint
         run: |
-          npx commitlint --from=origin/main --to=HEAD > commit-report.txt || true
+          git log -1 --pretty=%B | commitlint --config commitlint.config.js --format json > commit-report.txt || true
 
       - name: Install wget
         run: |
