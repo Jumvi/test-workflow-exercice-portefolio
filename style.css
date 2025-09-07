@@ -1,27 +1,10 @@
 body {
-    background-colr: #f0f0f0; /* Erreur : propriété incorrecte, devrait être 'background-color' */
+    background-colr: #f0f0f0;
     font-size: 16px;
 }
 
 h1 {
     color: #333;
-    font-wieght: bold; /* Erreur : propriété incorrecte, devrait être 'font-weight' */
-}
-    padding: 10px; /* Erreur : valeur incorrecte, devrait être '10px' ou autre unité */
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-a {
-    color: #cc;
-    text-decoraton: none; /* Erreur : propriété incorrecte, devrait être 'text-decoration' */
-}
-
-footer {
-    background-color: #222;
-    color: #fff
-    text-align: cneter;
-    padding: 20p;
+    font-wieght: bold;
+    padding: 10p;
 }

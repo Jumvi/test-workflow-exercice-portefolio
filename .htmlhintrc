@@ -19,11 +19,9 @@
   "id-class-value": "dash",
   "style-disabled": false,
   "tagname-lowercase": true,
-  "rules": {
-    "section-requires-h": true,
     "img-alt-require": true,
     "href-abs-or-rel": true,
     "input-requires-label": true,
-    "label-requires-for": true
-  }
+    "label-requires-for": true,
+     "custom-rules": ["./section-title.js"]
 }

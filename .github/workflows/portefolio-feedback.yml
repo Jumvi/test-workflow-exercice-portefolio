@@ -1,5 +1,6 @@
 name: Portfolio Feedback
 
+
 on:
   push:
     branches:
@@ -43,12 +44,12 @@ jobs:
       # 4. Vérification du HTML avec HTMLHint
       - name: Run HTMLHint
         run: |
-          htmlhint "**/*.html" > html-report.txt || true
+          htmlhint --rulesdir . "**/*.html" > html-report.txt || true
 
       # 5. Vérification du CSS avec Stylelint
       - name: Run Stylelint
         run: |
-          stylelint "**/*.css" --formatter verbose > css-report.txt || true
+          stylelint "**/*.css" > css-report.txt || true
 
       # 6. Vérification des messages de commit avec Commitlint
       - name: Run Commitlint
@@ -75,9 +76,7 @@ jobs:
           echo "### Messages de Commit" >> feedback.md
           cat commit-report.txt >> feedback.md || echo "✅ Tous les messages de commit sont conformes." >> feedback.md
           echo "" >> feedback.md
-          echo "### Validation W3C" >> feedback.md
-          cat w3c-report.json >> feedback.md || echo "✅ Validation W3C réussie." >> feedback.md
-
+         
       # 9. Reformulation du feedback avec ton script
       - name: Parse Feedback with Custom Script
         run: |
@@ -90,4 +89,7 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add feedback.md
           git commit -m "chore: mise à jour du feedback automatique [skip ci]" || echo "Aucun changement à commiter."
+          git status
+          git diff feedback.md
+          git pull --rebase
           git push
