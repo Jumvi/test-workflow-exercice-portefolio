@@ -6,5 +6,11 @@ body {
 h1 {
     color: #333;
     font-wieght: bold;
-    padding: 10px;
+    padding: 10p;
+}
+
+main {
+    margin: 20px;
+    border: 1px solid cc;
+    borde-radious: 5px;
 }
