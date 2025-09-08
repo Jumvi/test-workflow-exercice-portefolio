@@ -1,6 +1,5 @@
 name: Portfolio Feedback
 
-
 on:
   push:
     branches:
@@ -15,87 +14,45 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
-     
+
+
 
 jobs:
   feedback:
     if: ${{!contains(github.event.head_commit.message, '[skip ci]')}}
     runs-on: ubuntu-latest
-
     steps:
-      # 1. Récupération du dépôt
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Nécessaire pour vérifier tous les commits
 
-      # 2. Configuration de Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # 3. Installation des outils nécessaires
-      - name: Install linters and dependencies
-        run: |
-          npm install -g htmlhint stylelint @commitlint/cli @commitlint/config-conventional
+      - name: Install dependencies
+        run: npm install htmlhint stylelint commitlint cheerio glob
 
-      # 4. Vérification du HTML avec HTMLHint
       - name: Run HTMLHint
-        run: |
-          htmlhint --rulesdir . "**/*.html" > html-report.txt || true
+        run: npx htmlhint '**/*.html' > html-report.txt 2>&1 || true
 
-      # 5. Vérification du CSS avec Stylelint
       - name: Run Stylelint
-        run: |
-          stylelint "style.css" > css-report.txt 2>&1 || true
+        run: npx stylelint '**/*.css' > css-report.txt 2>&1 || true
 
-      # 6. Vérification des messages de commit avec Commitlint
       - name: Run Commitlint
-        run: |
-          git log -1 --pretty=%B | commitlint --config commitlint.config.js --format json > commit-report.txt || true
+        run: git log -1 --pretty=%B | npx commitlint > commit-report.txt 2>&1 || true
 
-      - name: Install wget
-        run: |
-          sudo apt-get update && sudo apt-get install -y wget
+      - name: Parse feedback
+        run: node feedback-parser.js
 
-      # 8. Génération du feedback initial
-      - name: Generate Initial Feedback
-        run: |
-          echo "# 📋 Feedback Automatique" > feedback.md
-          echo "" >> feedback.md
-          echo "## 🔍 Résultats des Analyses" >> feedback.md
-          echo "" >> feedback.md
-          echo "### HTML" >> feedback.md
-          cat html-report.txt >> feedback.md || echo "✅ Aucun problème détecté dans le HTML." >> feedback.md
-          echo "" >> feedback.md
-          echo "### CSS" >> feedback.md
-          cat css-report.txt >> feedback.md || echo "✅ Aucun problème détecté dans le CSS." >> feedback.md
-          echo "" >> feedback.md
-          echo "### Messages de Commit" >> feedback.md
-          cat commit-report.txt >> feedback.md || echo "✅ Tous les messages de commit sont conformes." >> feedback.md
-          echo "" >> feedback.md
+      - name: Show feedback
+        run: cat feedback.md
 
-      
-         
-      # 9. Reformulation du feedback avec ton script
-      #installation de cheerio pour la prise en charge des erreurs sections sans titre
-      - name: Install Cheerio and glob
-        run: |
-          npm install cheerio glob
-      - name: Parse Feedback with Custom Script
-        run: |
-          node feedback-parser.js
-
-      # 10. Commit et push du feedback
-      - name: Commit Feedback
+      - name: Commit and push feedback
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add feedback.md html-feedback.md css-feedback.md commit-feedback.md section-title-feedback.md
+          git add feedback.md
           git commit -m "chore: mise à jour du feedback automatique [skip ci]" || echo "Aucun changement à commiter."
-          git status
-          git diff feedback.md
           git pull --rebase
           git push
