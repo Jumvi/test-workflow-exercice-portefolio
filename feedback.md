@@ -6,8 +6,6 @@
 
 - ❌ **Attribut `alt` manquant** : chaque image `<img>` doit avoir un texte alternatif.
 
-- ❌ **Caractères spéciaux non échappés** : certains caractères doivent être remplacés par leur équivalent HTML.
-
 
 
 # Feedback CSS
