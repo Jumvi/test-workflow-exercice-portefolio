@@ -59,5 +59,4 @@ jobs:
           git add feedback.md
           git status
           git commit -m "chore: mise à jour du feedback automatique [skip ci]" || echo "Aucun changement à commiter."
-          git pull --rebase
           git push
