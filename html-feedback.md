@@ -6,18 +6,3 @@
 
 - ❌ **Attribut `alt` manquant** : chaque image `<img>` doit avoir un texte alternatif.
 
-
-
-# Feedback CSS
-
-✅ Aucun problème détecté ! 🎉
-
-
-# Feedback Commit
-
-✅ Aucun problème détecté ! 🎉
-
-
-# Feedback Sections HTML
-
-- ❌ Dans index.html : la balise <section> n°1 ne contient pas de titre (h1-h6).
