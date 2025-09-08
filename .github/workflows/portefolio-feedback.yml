@@ -93,7 +93,7 @@ jobs:
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add feedback.md
+          git add feedback.md html-feedback.md css-feedback.md commit-feedback.md section-title-feedback.md
           git commit -m "chore: mise à jour du feedback automatique [skip ci]" || echo "Aucun changement à commiter."
           git status
           git diff feedback.md

@@ -2,23 +2,8 @@ const fs = require('fs');
 const cheerio = require('cheerio');
 const glob = require('glob');
 
-const htmlFiles = glob.sync('**/*.html');
-const $ = cheerio.load(htmlFiles.map(file => fs.readFileSync(file, 'utf8')).join(''));
 
-let errors = [];
 
-$('section').each((i, section) => {
-  const hasTitle = $(section).find('h1,h2,h3,h4,h5,h6').length > 0;
-  if (!hasTitle) {
-    errors.push(`❌ La balise <section> n°${i + 1} ne contient pas de titre (h1-h6).`);
-  }
-});
-
-if (errors.length) {
-  fs.writeFileSync('section-title-report.txt', errors.join('\n'));
-} else {
-  fs.writeFileSync('section-title-report.txt', '✅ Toutes les sections contiennent un titre.');
-}
 
 // ========================
 // Dictionnaire enrichi
@@ -265,6 +250,8 @@ const rules = [
 // ========================
 // Fonction de parsing
 // ========================
+// ...imports et règles...
+
 function parseErrors(inputFile, outputFile, sectionTitle) {
   let content = fs.readFileSync(inputFile, 'utf-8');
   content = content.replace(/\u001b\[.*?m/g, '');
@@ -278,8 +265,7 @@ function parseErrors(inputFile, outputFile, sectionTitle) {
       if (line.toLowerCase().includes(rule.match.toLowerCase())) {
         hasError = true;
         if (!feedbacks[rule.message]) feedbacks[rule.message] = [];
-        // Extraire la ligne si possible
-        const m = line.match(/L(\d+)\s*\|/); // ex: "L13 |"
+        const m = line.match(/L(\d+)\s*\|/);
         if (m) feedbacks[rule.message].push(`ligne ${m[1]}`);
       }
     });
@@ -302,12 +288,35 @@ function parseErrors(inputFile, outputFile, sectionTitle) {
   console.log(`Feedback généré dans ${outputFile}`);
 }
 
-// Exemple d’utilisation
+// --- Appels principaux ---
 parseErrors('html-report.txt', 'html-feedback.md', 'Feedback HTML');
 parseErrors('css-report.txt', 'css-feedback.md', 'Feedback CSS');
 parseErrors('commit-report.txt', 'commit-feedback.md', 'Feedback Commit');
-parseErrors('section-title-report.txt', 'section-title-feedback.md', 'Feedback Sections HTML');
 
+// --- Vérification des <section> sans titre (h1-h6) ---
+let sectionErrors = [];
+htmlFiles.forEach(file => {
+  const html = fs.readFileSync(file, 'utf8');
+  const $ = cheerio.load(html);
+  $('section').each((i, section) => {
+    const hasTitle = $(section).find('h1,h2,h3,h4,h5,h6').length > 0;
+    if (!hasTitle) {
+      sectionErrors.push(`❌ Dans ${file} : la balise <section> n°${i + 1} ne contient pas de titre (h1-h6).`);
+    }
+  });
+});
+
+let sectionFeedback = "# Feedback Sections HTML\n\n";
+if (sectionErrors.length === 0) {
+  sectionFeedback += "✅ Toutes les sections contiennent un titre.\n";
+} else {
+  sectionErrors.forEach(err => {
+    sectionFeedback += `- ${err}\n`;
+  });
+}
+fs.writeFileSync('section-title-feedback.md', sectionFeedback, 'utf-8');
+
+// --- Génération du feedback final ---
 const final = [
   fs.readFileSync('html-feedback.md', 'utf-8'),
   fs.readFileSync('css-feedback.md', 'utf-8'),
