@@ -14,3 +14,10 @@ main {
     border: 1px solid cc;
     borde-radious: 5p;
 }
+
+footer {
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    color: #666;
+}
