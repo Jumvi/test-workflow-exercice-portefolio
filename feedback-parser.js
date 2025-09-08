@@ -1,4 +1,23 @@
 const fs = require('fs');
+const cheerio = require('cheerio');
+
+const html = fs.readFileSync('**/*.html', 'utf8');
+const $ = cheerio.load(html);
+
+let errors = [];
+
+$('section').each((i, section) => {
+  const hasTitle = $(section).find('h1,h2,h3,h4,h5,h6').length > 0;
+  if (!hasTitle) {
+    errors.push(`❌ La balise <section> n°${i + 1} ne contient pas de titre (h1-h6).`);
+  }
+});
+
+if (errors.length) {
+  fs.writeFileSync('section-title-report.txt', errors.join('\n'));
+} else {
+  fs.writeFileSync('section-title-report.txt', '✅ Toutes les sections contiennent un titre.');
+}
 
 // ========================
 // Dictionnaire enrichi
@@ -189,6 +208,22 @@ const rules = [
   match: "is not a known property",
   message: "❌ **Propriété CSS inconnue** : vérifiez l'orthographe."
 },
+{
+  match: "unknown value",
+  message: "❌ **Valeur inconnue pour une propriété CSS** : vérifiez la valeur utilisée."
+},
+
+{
+  match: "unknown unit",
+  message: "❌ **Unité CSS inconnue** : vérifiez l'unité utilisée."
+},
+{
+  match: "to come before",
+  message: "❌ **Ordre des propriétés CSS incorrect** : respectez l'ordre recommandé."
+},{
+  match: "unknown rule",
+  message: "❌ **cette règle n'est pas détectée par Stylelint** : vérifiez votre configuration Stylelint."
+},
 
   // --- Git ---
   // Commitlint rules
@@ -270,10 +305,12 @@ function parseErrors(inputFile, outputFile, sectionTitle) {
 parseErrors('html-report.txt', 'html-feedback.md', 'Feedback HTML');
 parseErrors('css-report.txt', 'css-feedback.md', 'Feedback CSS');
 parseErrors('commit-report.txt', 'commit-feedback.md', 'Feedback Commit');
+parseErrors('section-title-report.txt', 'section-title-feedback.md', 'Feedback Sections HTML');
 
 const final = [
   fs.readFileSync('html-feedback.md', 'utf-8'),
   fs.readFileSync('css-feedback.md', 'utf-8'),
-  fs.readFileSync('commit-feedback.md', 'utf-8')
+  fs.readFileSync('commit-feedback.md', 'utf-8'),
+  fs.readFileSync('section-title-feedback.md', 'utf-8')
 ].join('\n\n');
 fs.writeFileSync('feedback.md', final, 'utf-8');

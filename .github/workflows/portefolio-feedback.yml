@@ -49,7 +49,7 @@ jobs:
       # 5. Vérification du CSS avec Stylelint
       - name: Run Stylelint
         run: |
-          stylelint "**/*.css" > css-report.txt || true
+          stylelint "**/*.css" > css-report.txt 2>&1 || true
 
       # 6. Vérification des messages de commit avec Commitlint
       - name: Run Commitlint
@@ -76,8 +76,14 @@ jobs:
           echo "### Messages de Commit" >> feedback.md
           cat commit-report.txt >> feedback.md || echo "✅ Tous les messages de commit sont conformes." >> feedback.md
           echo "" >> feedback.md
+
+      
          
       # 9. Reformulation du feedback avec ton script
+      #installation de cheerio pour la prise en charge des erreurs sections sans titre
+      - name: Install Cheerio
+        run: |
+          npm install cheerio
       - name: Parse Feedback with Custom Script
         run: |
           node feedback-parser.js
