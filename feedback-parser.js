@@ -2,6 +2,8 @@ const fs = require('fs');
 const cheerio = require('cheerio');
 const glob = require('glob');
 
+const htmlFiles = glob.sync('**/*.html');
+const $ = cheerio.load(htmlFiles.map(file => fs.readFileSync(file, 'utf8')).join(''));
 
 
 
