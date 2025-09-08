@@ -81,9 +81,9 @@ jobs:
          
       # 9. Reformulation du feedback avec ton script
       #installation de cheerio pour la prise en charge des erreurs sections sans titre
-      - name: Install Cheerio
+      - name: Install Cheerio and glob
         run: |
-          npm install cheerio
+          npm install cheerio glob
       - name: Parse Feedback with Custom Script
         run: |
           node feedback-parser.js
